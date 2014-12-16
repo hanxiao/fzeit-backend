@@ -23,8 +23,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="fnlp-app-2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="fnlp-core-2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: cn.fnlp.app:fnlpapp:1.0" level="project" />
+    <orderEntry type="library" name="Maven: cn.fnlp.core:fnlpcore:1.0" level="project" />
     <orderEntry type="library" name="Maven: rome:rome:1.0" level="project" />
     <orderEntry type="library" name="Maven: jdom:jdom:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.memetix:microsoft-translator-java-api:0.6.2" level="project" />

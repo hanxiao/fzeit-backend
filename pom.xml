@@ -16,6 +16,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>cn.fnlp.app</groupId>
+            <artifactId>fnlpapp</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.fnlp.core</groupId>
+            <artifactId>fnlpcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>rome</groupId>
             <artifactId>rome</artifactId>
             <version>1.0</version>
