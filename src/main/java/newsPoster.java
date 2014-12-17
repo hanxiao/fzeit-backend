@@ -2,33 +2,48 @@ import org.fnlp.app.keyword.AbstractExtractor;
 import org.fnlp.app.keyword.WordExtract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redstone.xmlrpc.XmlRpcClient;
-import redstone.xmlrpc.XmlRpcException;
-import redstone.xmlrpc.XmlRpcFault;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.util.*;
 
 public class newsPoster {
     private static final wpPostComparator wpc = new wpPostComparator();
     private static final Logger LOG = LoggerFactory.getLogger(newsPoster.class);
-    private final String xmlRpcUrl = "http://54.93.32.189/xmlrpc.php";
-    private final String username = "hanxiao";
-    private final String password = "xh870531";
-    //First step, init an client
-    private XmlRpcClient client;
 
-    public newsPoster() {
-        try {
-            this.client = new XmlRpcClient(xmlRpcUrl, true);
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    private static wpAccount account = new wpAccount();
 
     public static void main(String[] args){
+        // write account info
+//        try
+//        {
+//            LOG.info("Saving account info...");
+//            FileOutputStream fileOut =
+//                    new FileOutputStream("account.bin");
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(account);
+//            out.close();
+//            fileOut.close();
+//        } catch(Exception ex)
+//        {
+//            ex.printStackTrace();
+//            return;
+//        }
+
+        // read account info
+        try {
+            FileInputStream fileIn = new FileInputStream("account.bin");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            account = (wpAccount) in.readObject();
+            account.touch();
+            in.close();
+            fileIn.close();
+        } catch (Exception ex) {
+            LOG.info("No account info: where is account.bin???");
+            ex.printStackTrace();
+            return;
+        }
+
+
         Timer timer = new Timer ();
         final int rumTimes = 0;
         TimerTask hourlyTask = new TimerTask () {
@@ -98,24 +113,11 @@ public class newsPoster {
     public void postNews(List<wpPost> wpPosts){
         int success = 0;
         for (wpPost wp : wpPosts) {
-            try {
-                if (!wp.has_posted) {
-                    LOG.info("Posting {}", wp.trans_title);
-                    client.invoke("metaWeblog.newPost",
-                            new Object[] {new Integer(1), username,password,
-                                    wp.buildPub(),
-                                    true});
-                    success ++;
-                }
-            } catch (XmlRpcException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (XmlRpcFault e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            if (!wp.has_posted) {
+                LOG.info("Posting: {}", wp.trans_title);
+                success += (account.publish(wp)) ? 1 : 0;
             }
         }
-
         LOG.info("Published: {} posts", success);
     }
 

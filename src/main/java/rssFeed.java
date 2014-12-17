@@ -22,23 +22,11 @@ import java.util.Stack;
 //Customer ID	c944f3ea-fd7c-42fc-a0eb-bb2134f49a79
 
 public class rssFeed {
-    Random r = new Random();
     private static final Logger LOG = LoggerFactory.getLogger(rssFeed.class);
     public boolean needTranslate;
+    Random r = new Random();
     private URL feedUrl;
     private AbstractExtractor extractor;
-
-    public String getImg() {
-        if (imgSets.size() > 0) {
-            return imgSets.get(r.nextInt(imgSets.size()));
-        }
-        return null;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
     private String category;
     private List<String> imgSets = new ArrayList<String>();
 
@@ -54,17 +42,27 @@ public class rssFeed {
         this.extractor = extractor;
     }
 
-
     public rssFeed(String keyword, AbstractExtractor extractor, String category) {
         this.needTranslate = false;
         try {
             this.feedUrl = new URL("https://news.google.com/news/section?cf=all&ned=us&hl=en&q=" +
-                    URLEncoder.encode(keyword, "UTF-8")+ "&output=rss");
+                    URLEncoder.encode(keyword, "UTF-8") + "&output=rss");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         this.category = category;
         this.extractor = extractor;
+    }
+
+    public String getImg() {
+        if (imgSets.size() > 0) {
+            return imgSets.get(r.nextInt(imgSets.size()));
+        }
+        return null;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public void addImg(String url) {
@@ -84,7 +82,6 @@ public class rssFeed {
                 result.push(newPost);
                 LOG.info("added a post!");
             }
-
         }
         catch (Exception ex) {
             ex.printStackTrace();
