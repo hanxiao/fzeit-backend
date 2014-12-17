@@ -11,8 +11,8 @@ import java.net.MalformedURLException;
 public class wpAccount implements Serializable {
     private transient XmlRpcClient client;
     private final String xmlRpcUrl = "http://54.93.32.189/xmlrpc.php";
-    private final String username = "hanxiao";
-    private final String password = "xh870531";
+    private final String username = "asdadamkslflwe";
+    private final String password = "rewfewlfkmlmkl";
 
     public wpAccount() {
         touch();
