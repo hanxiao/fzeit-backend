@@ -30,8 +30,7 @@ public class rssFeed {
     private String category;
     private List<String> imgSets = new ArrayList<String>();
 
-    public rssFeed(String url, String category, boolean needTranslate,
-                   AbstractExtractor extractor) {
+    public rssFeed(String url, AbstractExtractor extractor, String category, boolean needTranslate) {
         this.needTranslate = needTranslate;
         try {
             this.feedUrl = new URL(url);

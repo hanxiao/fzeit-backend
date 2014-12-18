@@ -36,7 +36,7 @@ public class wpPost implements java.io.Serializable{
         hmContent.put("post_date", pub_date);
         //Basically, we can put anything here as long as it match's wordpress's fields.;
         if (numLinks > 4) {
-            hmContent.put("categories", new String[]{"当日头条"});
+            hmContent.put("categories", new String[]{"头条"});
         } else {
             hmContent.put("categories", new String[]{category});
         }
@@ -115,10 +115,10 @@ public class wpPost implements java.io.Serializable{
             Translate.setClientSecret("EMPqFQHxHvRtuSGWTWtDEDlXVeOQkwvp38guui4rGJ4=");
             try {
                 if (org_title.trim().length() > 0) {
-                    this.trans_title = Translate.execute(org_title, Language.GERMAN, Language.CHINESE_SIMPLIFIED);
+                    this.trans_title = Translate.execute(org_title, Language.AUTO_DETECT, Language.CHINESE_SIMPLIFIED);
                 }
                 if (org_content.trim().length() > 0) {
-                    this.trans_content = Translate.execute(org_content, Language.GERMAN, Language.CHINESE_SIMPLIFIED);
+                    this.trans_content = Translate.execute(org_content, Language.AUTO_DETECT, Language.CHINESE_SIMPLIFIED);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

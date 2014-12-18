@@ -28,6 +28,23 @@ public class newsPoster {
 //            ex.printStackTrace();
 //            return;
 //        }
+        final List<String> feedLists = new ArrayList<String>();
+        try {
+            FileInputStream fis = new FileInputStream("newslist");
+            //Construct BufferedReader from InputStreamReader
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                feedLists.add(line);
+            }
+            br.close();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            LOG.error("Can not found any news sources!");
+        }
+        LOG.info("Load {} sources", feedLists.size());
+
 
         // read account info
         try {
@@ -76,14 +93,12 @@ public class newsPoster {
                     wpPosts = new ArrayList<wpPost>();
                 }
                 // keyword to search on google, extractor, category in WP[MUST EXISTS in WP]
-                wpPosts.addAll(new rssFeed("英国经济", extractor, "欧元区经济").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("法国经济", extractor, "欧元区经济").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("瑞士经济", extractor, "欧元区经济").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("德国经济", extractor, "德国经济").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("欧元", extractor, "欧元区经济").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("欧洲央行", extractor, "欧洲央行").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("DAX 股市", extractor, "德国股市").fetchSingleRSS());
-                wpPosts.addAll(new rssFeed("伦敦交易所", extractor, "欧洲股市").fetchSingleRSS());
+//                wpPosts.addAll(new rssFeed("http://www.finanzen.net/rss/news", extractor, "实时快报", true).fetchSingleRSS());
+//                wpPosts.addAll(new rssFeed("英国经济", extractor, "欧元区经济").fetchSingleRSS());
+                for (int jj = 0; jj < feedLists.size(); jj++) {
+                    String[] info = feedLists.get(jj).split(",");
+                    wpPosts.addAll(new rssFeed(info[0].trim(), extractor, info[1].trim()).fetchSingleRSS());
+                }
                 wpPosts.sort(wpc);
                 List<wpPost> uniPosts =
                         new ArrayList<wpPost>(new LinkedHashSet<wpPost>(wpPosts));
