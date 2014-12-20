@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 import java.util.*;
 
 public class wpPost implements java.io.Serializable{
+    public String postid;
     public String org_title;
     public String org_content;
     public String trans_title;
@@ -35,7 +36,7 @@ public class wpPost implements java.io.Serializable{
         hmContent.put("post_status", "publish");
         hmContent.put("post_date", pub_date);
         //Basically, we can put anything here as long as it match's wordpress's fields.;
-        if (numLinks > 4) {
+        if (numLinks > 6) {
             hmContent.put("categories", new String[]{"头条"});
         } else {
             hmContent.put("categories", new String[]{category});

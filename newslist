@@ -1,38 +1,39 @@
-阿迪达斯 Adidas 股票, 德国企业
-安联 Allianz 股票, 德国企业
-巴斯夫 BASF 股票, 德国企业
-拜耳 Bayer 股票, 德国企业
-拜尔斯道夫 Beiersdorf 股票, 德国企业
-宝马 BMW 股票, 德国企业
-德国商业银行 Commerzbank 股票, 德国企业
-戴姆勒 Daimler 汽车 股票, 德国企业
-德意志银行 Deutsche Bank 股票, 德国企业
-德国证券交易所 Deutsche Börse 股票, 德国企业
-德国邮政 Deutsche Post 股票, 德国企业
-德国电信 Deutsche Telekom 股票, 德国企业
-E.ON 能源 股票, 德国企业
-费森尤斯 医疗 Fresenius 股票, 德国企业
-汉高 Henkel 股票, 德国企业
-英飞凌 Infineon 股票, 德国企业
-德国 K+S 采矿 股票, 德国企业
-林德 Linde AG 股票, 德国企业
-汉莎航空 Lufthansa股票, 德国企业
-默克合资股份公司 Merck KGaA股票, 德国企业
-麦德龙 Metro 股票, 德国企业
-RWE 股票, 德国企业
-海德堡水泥 HeidelbergCement 股票, 德国企业
-SAP 股票 企业 软件, 德国企业
-西门子 Siemens 股票, 德国企业
-蒂森克虏伯 ThyssenKrupp 股票, 德国企业
-大众汽车 Volkswagen 股票, 德国企业
-英国经济,欧元区经济
-法国经济,欧元区经济
-瑞士经济,欧元区经济
-欧洲 GDP 国债,欧元区经济
-欧洲 黄金 银价,欧元区经济
+Adidas 股票, 阿迪达斯
+Allianz 股票, 安联
+BASF 股票, 巴斯夫
+Bayer 股票, 拜耳
+Beiersdorf 股票, 拜尔斯道夫
+BMW 股票, 宝马
+Commerzbank 股票, 德国商业银行
+Daimler 汽车 股票, 戴姆勒
+Deutsche Bank 股票, 德意志银行
+Deutsche Börse 股票, 德国证券交易所
+Deutsche Post 股票, 德国邮政
+Deutsche Telekom 股票, 德国电信
+E.ON 能源 股票, E.ON
+医疗 Fresenius 股票, 费森尤斯
+Henkel 股票, 汉高
+Infineon 股票, 英飞凌
+Linde AG 股票, 林德
+Lufthansa 股票, 汉莎航空
+Merck KGaA 股票, 默克合资股份公司
+德国 Metro 股票, 麦德龙
+德国 RWE 股票, RWE
+HeidelbergCement 股票, 海德堡水泥
+SAP 股票 企业 软件, SAP
+Siemens 股票, 西门子
+ThyssenKrupp 股票, 蒂森克虏伯
+Volkswagen 股票, 大众汽车
+英国经济,英国
+法国经济,法国
+瑞士经济,瑞士
+德国经济,德国
+荷兰经济,荷兰
+意大利经济,意大利
 欧元,欧元区经济
-欧洲 原油 石油 天然气,欧元区经济
-德国经济,德国经济
+欧洲失业率,欧元区经济
 欧洲央行,欧洲央行
-DAX 股市,德国股市
-伦敦交易所,欧洲股市
+德国DAX,欧洲股市
+法国CAC,欧洲股市
+英国富时100,欧洲股市
+Euro STOXX 50 股市,欧洲股市
