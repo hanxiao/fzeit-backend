@@ -15,16 +15,17 @@ public class wpPostList implements Serializable {
     transient EditDistance ed = new EditDistance();
     private static final wpPostComparator wpc = new wpPostComparator();
 
-    public void sort() {
+    private void sort() {
         allPosts.sort(wpc);
     }
 
     public void addAll(List<wpPost> wpPosts) {
+        List<wpPost> newPosts = new ArrayList<wpPost>();
         for (wpPost wp_new : wpPosts) {
             boolean isDuplicate = false;
             for (wpPost wp_old : allPosts) {
-                if (ed.sim(wp_old.trans_title, wp_new.trans_title) > 0.9 ||
-                        ed.sim(wp_old.trans_content, wp_new.trans_content) > 0.9) {
+                if (ed.sim(wp_old.trans_title, wp_new.trans_title) > 0.8 ||
+                        ed.sim(wp_old.trans_content, wp_new.trans_content) > 0.8) {
                     // probably report the same news
                     LOG.info("{} is similar to {}, merged!", wp_old.trans_title, wp_new.trans_title);
                     wp_old.numLinks += wp_new.numLinks;
@@ -34,12 +35,14 @@ public class wpPostList implements Serializable {
                 }
             }
             if (!isDuplicate) {
-                allPosts.add(wp_new);
+                newPosts.add(wp_new);
             }
         }
+        allPosts.addAll(newPosts);
     }
 
     public void publish(wpAccount account) {
+        sort();
         int success = 0;
         for (wpPost wp : allPosts) {
             if (!wp.has_posted) {

@@ -36,7 +36,7 @@ public class wpPost implements java.io.Serializable{
         hmContent.put("post_status", "publish");
         hmContent.put("post_date", pub_date);
         //Basically, we can put anything here as long as it match's wordpress's fields.;
-        if (numLinks > 6) {
+        if (numLinks > 4) {
             hmContent.put("categories", new String[]{"头条"});
         } else {
             hmContent.put("categories", new String[]{category});
@@ -72,7 +72,8 @@ public class wpPost implements java.io.Serializable{
         author = org_title.substring(org_title.lastIndexOf('-') + 1, org_title.length()).trim();
         result = chineseTrans.toSimp(org_title
                 .replaceAll("-\\s.*?$", "")
-                .replaceAll("^.*[：:]", "")).trim();
+                .replaceAll("^.*[：:]", ""))
+                .replaceAll(".*[\\(【《].*?[】\\)》]", "").trim();
         result = chineseTrans.normalizeCAP(result, true);
         return result;
     }
