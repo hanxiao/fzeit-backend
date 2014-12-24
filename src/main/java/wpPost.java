@@ -37,7 +37,7 @@ public class wpPost implements java.io.Serializable{
         hmContent.put("post_date", pub_date);
         //Basically, we can put anything here as long as it match's wordpress's fields.;
         if (numLinks > 4) {
-            hmContent.put("categories", new String[]{"头条"});
+            hmContent.put("categories", new String[]{"头条", category});
         } else {
             hmContent.put("categories", new String[]{category});
         }
@@ -48,8 +48,6 @@ public class wpPost implements java.io.Serializable{
         HashMap thumbContent = new HashMap();
         thumbContent.put("grid", "double");
         hmContent.put("custom_fields", thumbContent);
-
-        this.has_posted = true;
         //hmContent.put("wp_post_thumbnail","http://www.tum.de/fileadmin/tu/layout/images/tumlogo.png");
         return  hmContent;
     }
@@ -69,11 +67,13 @@ public class wpPost implements java.io.Serializable{
     private String cleanTitle(String org_title) {
         // do something cleaning work for the title
         String result;
+        org_title = chineseTrans.toSimp(org_title);
         author = org_title.substring(org_title.lastIndexOf('-') + 1, org_title.length()).trim();
-        result = chineseTrans.toSimp(org_title
+        result = org_title
                 .replaceAll("-\\s.*?$", "")
-                .replaceAll("^.*[：:]", ""))
-                .replaceAll(".*[\\(【《].*?[】\\)》]", "").trim();
+                .replaceAll("^.*[：:]", "")
+                .replaceAll(".*[\\(【《].*?[】\\)》]", "")
+                .trim();
         result = chineseTrans.normalizeCAP(result, true);
         return result;
     }
@@ -100,10 +100,12 @@ public class wpPost implements java.io.Serializable{
     }
 
     public wpPost(String org_title, String org_content, Date pub_date,
-                  rssFeed feed, AbstractExtractor extractor) {
+                  rssFeed feed, AbstractExtractor extractor, HashSet<String> allowedKeys) {
 
         this.org_title = cleanTitle(org_title);
         this.org_content = cleanContent(org_content);
+        this.org_content = this.org_content.replace(this.org_title, "")
+                .replace(this.author, "").trim();
         this.pub_date = pub_date;
         this.is_translate = feed.needTranslate;
         // fetch date is current time
@@ -137,20 +139,25 @@ public class wpPost implements java.io.Serializable{
             this.pub_date = this.fetch_date;
         }
 
-        List<String> tags = new ArrayList<String>();
-        try {
-            Map<String,Integer> result = extractor.extract(this.trans_content, 10);
-            for (Map.Entry<String, Integer> entry : result.entrySet()) {
-                String key = entry.getKey();
-                if (!key.matches(".*\\d+.*") &&
-                        key.length() > 1 && entry.getValue() > 60) {
-                    tags.add(key);
+        if (trans_content.length() > 1) {
+            List<String> tags = new ArrayList<String>();
+            try {
+                Map<String, Integer> result = extractor.extract(this.trans_content, 10);
+                for (Map.Entry<String, Integer> entry : result.entrySet()) {
+                    String key = entry.getKey();
+//                if (!key.matches(".*\\d+.*") &&
+//                        key.length() > 1 && entry.getValue() > 60) {
+//                    tags.add(key);
+//                }
+                    if (allowedKeys.contains(key)) {
+                        tags.add(key);
+                    }
                 }
+                this.keywords = new String[tags.size()];
+                this.keywords = tags.toArray(this.keywords);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            this.keywords = new String[tags.size()];
-            this.keywords = tags.toArray(this.keywords);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 }

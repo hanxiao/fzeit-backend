@@ -10,12 +10,13 @@ import org.fnlp.app.keyword.AbstractExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
 
 //Primary Account Key	FcsobK38692Ar95cYWoln4HvzZmBfDeQOVqqxW27ZUE
@@ -29,6 +30,7 @@ public class rssFeed {
     private AbstractExtractor extractor;
     private String category;
     private List<String> imgSets = new ArrayList<String>();
+    private HashSet<String> allowedKeys = new HashSet<String>();
 
     public rssFeed(String url, AbstractExtractor extractor, String category, boolean needTranslate) {
         this.needTranslate = needTranslate;
@@ -51,6 +53,20 @@ public class rssFeed {
         }
         this.category = category;
         this.extractor = extractor;
+        try {
+            FileInputStream fis = new FileInputStream("keywords.txt");
+            //Construct BufferedReader from InputStreamReader
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                allowedKeys.add(line);
+            }
+            br.close();
+            fis.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     public String getImg() {
@@ -77,7 +93,7 @@ public class rssFeed {
             List<SyndEntry> allFeeds = feed.getEntries();
             for (SyndEntry sf : allFeeds) {
                 wpPost newPost = new wpPost(sf.getTitle(),
-                        sf.getDescription().getValue(), sf.getPublishedDate(), this, extractor);
+                        sf.getDescription().getValue(), sf.getPublishedDate(), this, extractor, allowedKeys);
                 result.push(newPost);
                 LOG.info("added a post!");
             }
