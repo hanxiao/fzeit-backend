@@ -1,6 +1,5 @@
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
-import org.fnlp.app.keyword.AbstractExtractor;
 import org.fnlp.nlp.cn.ChineseTrans;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -45,10 +44,10 @@ public class wpPost implements java.io.Serializable{
         hmContent.put("dateCreated", pub_date);
         hmContent.put("date_modified", pub_date);
         hmContent.put("mt_text_more", linkUrl);
-        HashMap thumbContent = new HashMap();
-        thumbContent.put("grid", "double");
-        hmContent.put("custom_fields", thumbContent);
-        //hmContent.put("wp_post_thumbnail","http://www.tum.de/fileadmin/tu/layout/images/tumlogo.png");
+//        HashMap thumbContent = new HashMap();
+//        thumbContent.put("grid", "double");
+//        hmContent.put("custom_fields", thumbContent);
+//        hmContent.put("wp_post_thumbnail","http://www.tum.de/fileadmin/tu/layout/images/tumlogo.png");
         return  hmContent;
     }
 
@@ -100,7 +99,7 @@ public class wpPost implements java.io.Serializable{
     }
 
     public wpPost(String org_title, String org_content, Date pub_date,
-                  rssFeed feed, AbstractExtractor extractor, HashSet<String> allowedKeys) {
+                  rssFeed feed, HashMap<String, String> allowedKeys) {
 
         this.org_title = cleanTitle(org_title);
         this.org_content = cleanContent(org_content);
@@ -141,23 +140,13 @@ public class wpPost implements java.io.Serializable{
 
         if (trans_content.length() > 1) {
             List<String> tags = new ArrayList<String>();
-            try {
-                Map<String, Integer> result = extractor.extract(this.trans_content, 10);
-                for (Map.Entry<String, Integer> entry : result.entrySet()) {
-                    String key = entry.getKey();
-//                if (!key.matches(".*\\d+.*") &&
-//                        key.length() > 1 && entry.getValue() > 60) {
-//                    tags.add(key);
-//                }
-                    if (allowedKeys.contains(key)) {
-                        tags.add(key);
-                    }
+            for (Map.Entry<String, String> entry : allowedKeys.entrySet()) {
+                if (trans_content.contains(entry.getKey())) {
+                    tags.add(entry.getValue());
                 }
-                this.keywords = new String[tags.size()];
-                this.keywords = tags.toArray(this.keywords);
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
+            this.keywords = new String[tags.size()];
+            this.keywords = tags.toArray(this.keywords);
         }
     }
 }

@@ -50,7 +50,8 @@ public class wpPostList implements Serializable {
         sort();
         int success = 0;
         for (wpPost wp : allPosts) {
-            if (!wp.has_posted && wp.trans_content.length() > 1) {
+            if (!wp.has_posted && wp.trans_title.length() > 4 &&
+                    wp.trans_content.length() > 10) {
                 LOG.info("Posting: {}", wp.trans_title);
                 success += (account.publish(wp)) ? 1 : 0;
             }

@@ -6,7 +6,6 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
-import org.fnlp.app.keyword.AbstractExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +26,11 @@ public class rssFeed {
     public boolean needTranslate;
     Random r = new Random();
     private URL feedUrl;
-    private AbstractExtractor extractor;
     private String category;
     private List<String> imgSets = new ArrayList<String>();
-    private HashSet<String> allowedKeys = new HashSet<String>();
+    private HashMap<String, String> allowedKeys = new HashMap<String, String>();
 
-    public rssFeed(String url, AbstractExtractor extractor, String category, boolean needTranslate) {
+    public rssFeed(String url, String category, boolean needTranslate) {
         this.needTranslate = needTranslate;
         try {
             this.feedUrl = new URL(url);
@@ -40,10 +38,9 @@ public class rssFeed {
             ex.printStackTrace();
         }
         this.category = category;
-        this.extractor = extractor;
     }
 
-    public rssFeed(String keyword, AbstractExtractor extractor, String category) {
+    public rssFeed(String keyword, String category) {
         this.needTranslate = false;
         try {
             this.feedUrl = new URL("https://news.google.com/news/section?cf=all&ned=us&hl=en&q=" +
@@ -52,14 +49,14 @@ public class rssFeed {
             ex.printStackTrace();
         }
         this.category = category;
-        this.extractor = extractor;
         try {
             FileInputStream fis = new FileInputStream("keywords.txt");
             //Construct BufferedReader from InputStreamReader
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
             String line = null;
             while ((line = br.readLine()) != null) {
-                allowedKeys.add(line);
+                String[] info = line.trim().split(",");
+                allowedKeys.put(info[0], info[1]);
             }
             br.close();
             fis.close();
@@ -93,7 +90,7 @@ public class rssFeed {
             List<SyndEntry> allFeeds = feed.getEntries();
             for (SyndEntry sf : allFeeds) {
                 wpPost newPost = new wpPost(sf.getTitle(),
-                        sf.getDescription().getValue(), sf.getPublishedDate(), this, extractor, allowedKeys);
+                        sf.getDescription().getValue(), sf.getPublishedDate(), this, allowedKeys);
                 result.push(newPost);
                 LOG.info("added a post!");
             }

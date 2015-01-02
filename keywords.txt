@@ -1,47 +1,95 @@
-德国
-经济
-美元
-指数
-欧元
-中国
-欧洲
-法国
-央行
-市场
-英国
-汽车
-股市
-全球
-荷兰
-股票
-企业
-公司
-欧股
-意大利
-俄罗斯
-收购
-欧元区
-政策
-瑞士
-美国
-投资者
-制造商
-失业率
-香港
-银行
-美联储
-航空
-货币
-汇价
-风险
-希腊
-黄金
-英镑
-上市
-投资
-创新
-债券
-交易所
-国际
-合作
-俄国
+德国,Germany
+经济,Economy
+美元,USD
+指数,Index Stock
+欧元,EUR
+中国,China
+欧洲,Europe
+法国,France
+央行,ECB
+市场,Market
+英国,United Kingdom
+汽车,Automobile
+股市,Stock market
+全球,Global
+荷兰,Netherlands
+股票,Stock
+企业,Business
+公司,Enterprise
+欧股,European shares
+意大利,Italy
+俄罗斯,Russia
+收购,Purchase
+欧元区,Eurozone
+政策,Policy
+瑞士,Switzerland
+美国,USA
+投资者,Investor
+制造商,Manufacturers
+失业率,Unemployment rate
+香港,Hong Kong
+银行,Bank
+美联储,Fed
+航空,Aviation
+货币,Currency
+汇价,Exchange rate
+风险,Risk
+希腊,Greece
+黄金,Gold
+英镑,GBP
+上市,IPO
+IPO,IPO
+投资,Investment
+创新,Innovation
+债券,Bond
+交易所,Exchange
+国际,International
+合作,Cooperation
+俄国,Russia
+奥地利,Austria
+比利时,Belgium
+保加利亚,Bulgaria
+克罗地亚,Croatia
+塞浦路斯,Cyprus
+捷克,Czech
+丹麦,Denmark
+爱沙尼亚,Estonia
+芬兰,Finland
+匈牙利,Hungary
+爱尔兰,Ireland
+拉脱维亚,Latvia
+立陶宛,Lithuania
+卢森堡,Luxembourg
+马耳他,Malta
+波兰,Poland
+葡萄牙,Portugal
+罗马尼亚,Romania
+斯洛伐克,Slovakia
+斯洛文尼亚,Slovenia
+西班牙,Spain
+瑞典,Sweden
+Adidas,Adidas
+Allianz,Allianz
+BASF,BASF
+Bayer,Bayer
+Beiersdorf,Beiersdorf
+BMW,BMW
+Commerzbank,Commerzbank
+Daimler,Daimler
+Deutsche Bank,Deutsche Bank
+Deutsche Börse,Deutsche Börse
+Deutsche Post,Deutsche Post
+Deutsche Telekom,Deutsche Telekom
+Fresenius,Fresenius
+Henkel,Henkel
+Infineon,Infineon
+Linde AG,Linde AG
+Lufthansa,Lufthansa
+Merck KGaA,Merck KGaA
+Metro,Metro
+RWE,RWE
+HeidelbergCement,HeidelbergCement
+SAP,SAP
+Siemens,Siemens
+ThyssenKrupp,ThyssenKrupp
+Volkswagen,Volkswagen

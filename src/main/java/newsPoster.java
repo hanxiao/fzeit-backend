@@ -1,5 +1,3 @@
-import org.fnlp.app.keyword.AbstractExtractor;
-import org.fnlp.app.keyword.WordExtract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,18 +11,18 @@ public class newsPoster {
     private static final Logger LOG = LoggerFactory.getLogger(newsPoster.class);
 
     private static wpAccount account = new wpAccount();
-    private static final AbstractExtractor extractor;
-
-    static {
-        AbstractExtractor tmp = null;
-        try {
-            LOG.info("Loading FNLP model...");
-            tmp = new WordExtract("model/seg.m", "model/stopwords");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        extractor = tmp;
-    }
+//    private static final AbstractExtractor extractor;
+//
+//    static {
+//        AbstractExtractor tmp = null;
+//        try {
+//            LOG.info("Loading FNLP model...");
+//            tmp = new WordExtract("model/seg.m", "model/stopwords");
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//        extractor = tmp;
+//    }
 
     public static void main(String[] args){
 
@@ -113,7 +111,7 @@ public class newsPoster {
                 continue;
             }
             LOG.info(feedLists.get(jj));
-            wpPosts.addAll(new rssFeed(info[0].trim(), extractor, info[1].trim()).fetchSingleRSS());
+            wpPosts.addAll(new rssFeed(info[0].trim(), info[1].trim()).fetchSingleRSS());
         }
         wpPosts.publish(account);
         try {
