@@ -27,6 +27,7 @@ public class rssFeed {
     Random r = new Random();
     private URL feedUrl;
     private String category;
+    private String subCategory;
     private List<String> imgSets = new ArrayList<String>();
     private HashMap<String, String> allowedKeys = new HashMap<String, String>();
 
@@ -40,7 +41,7 @@ public class rssFeed {
         this.category = category;
     }
 
-    public rssFeed(String keyword, String category) {
+    public rssFeed(String keyword, String subCategory, String category, String imgUrl) {
         this.needTranslate = false;
         try {
             this.feedUrl = new URL("https://news.google.com/news/section?cf=all&ned=us&hl=en&q=" +
@@ -49,6 +50,8 @@ public class rssFeed {
             ex.printStackTrace();
         }
         this.category = category;
+        this.subCategory = subCategory;
+        addImg(imgUrl);
         try {
             FileInputStream fis = new FileInputStream("keywords.txt");
             //Construct BufferedReader from InputStreamReader
@@ -75,6 +78,10 @@ public class rssFeed {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
     }
 
     public void addImg(String url) {

@@ -1,11 +1,14 @@
+import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
+import org.apache.commons.lang.StringUtils;
 import org.fnlp.nlp.cn.ChineseTrans;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class wpPost implements java.io.Serializable{
@@ -18,32 +21,47 @@ public class wpPost implements java.io.Serializable{
     public Date fetch_date;
     public boolean is_translate;
     public String linkUrl = "";
+    public String curLink = "";
     public String author;
     public String category;
+    public String subCategory;
     public String imgUrl;
-    public String[] keywords;
+    public List<String> keywords;
     public boolean has_posted = false;
     public int numLinks = 0;
     transient Elements links;
 
     static final ChineseTrans chineseTrans = new ChineseTrans();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat dateFormatLong = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public HashMap buildPub() {
         HashMap hmContent = new HashMap();
         hmContent.put("title", trans_title);
         hmContent.put("description", trans_content);
         hmContent.put("post_status", "publish");
-        hmContent.put("post_date", pub_date);
+        hmContent.put("post_date", dateFormatLong.format(pub_date));
+        hmContent.put("filename", String.format("%s-%s.md",
+                dateFormat.format(pub_date),
+                PinyinHelper.getShortPinyin(trans_title)
+                        .replaceAll("[^a-zA-Z ]", "")
+                        .replaceAll("\\s+", "")
+                        .toLowerCase()));
         //Basically, we can put anything here as long as it match's wordpress's fields.;
-        if (numLinks > 4) {
-            hmContent.put("categories", new String[]{"头条", category});
-        } else {
-            hmContent.put("categories", new String[]{category});
-        }
-        hmContent.put("mt_keywords", keywords);
+//        if (numLinks > 4) {
+//            hmContent.put("categories", new String[]{"头条", category});
+//        } else {
+//            hmContent.put("categories", new String[]{category});
+//        }
+        hmContent.put("category", category);
+        hmContent.put("subcategory", subCategory);
+        hmContent.put("mt_keywords", StringUtils.join(keywords.listIterator(), "\n- "));
         hmContent.put("dateCreated", pub_date);
         hmContent.put("date_modified", pub_date);
         hmContent.put("mt_text_more", linkUrl);
+        hmContent.put("thumbnail", String.format("![%s](%s)", category, imgUrl));
+        hmContent.put("imgurl", String.format("%s", imgUrl));
+        hmContent.put("link", String.format("%s", curLink));
 //        HashMap thumbContent = new HashMap();
 //        thumbContent.put("grid", "double");
 //        hmContent.put("custom_fields", thumbContent);
@@ -72,7 +90,8 @@ public class wpPost implements java.io.Serializable{
                 .replaceAll("-\\s.*?$", "")
                 .replaceAll("^.*[：:]", "")
                 .replaceAll(".*[\\(【《].*?[】\\)》]", "")
-                .trim();
+                .replaceAll("\"", "").trim();
+        //result = org_title;
         result = chineseTrans.normalizeCAP(result, true);
         return result;
     }
@@ -82,14 +101,16 @@ public class wpPost implements java.io.Serializable{
         Document doc = Jsoup.parse(org_content);
         links = doc.select("a[href]");
         result = chineseTrans.toSimp(doc.text())
-                .replaceAll("\\.\\.\\..*$", "").trim();
+                .replaceAll("\\.\\.\\..*$", "")
+                .replaceAll("\"", "").trim();
 
 
         for (Element link : links) {
             if (link.attr("abs:href").matches(".*url=.*")) {
                 String this_link = link.attr("abs:href").replaceAll(".*?url=", "");
                 if (this_link.length() > 0) {
-                    linkUrl += String.format("<p><a href=\"%s\">[%s]</a></p>", this_link, link.text().trim());
+                    linkUrl += String.format("<p><a href=\"%s\" target=\"_blank\">[%s]</a></p>", this_link, link.text().trim());
+                    curLink = this_link;
                     numLinks ++;
                 }
             }
@@ -110,6 +131,7 @@ public class wpPost implements java.io.Serializable{
         // fetch date is current time
         this.fetch_date = new Date();
         this.category = feed.getCategory();
+        this.subCategory = feed.getSubCategory();
         this.imgUrl = feed.getImg();
 
 
@@ -142,11 +164,10 @@ public class wpPost implements java.io.Serializable{
             List<String> tags = new ArrayList<String>();
             for (Map.Entry<String, String> entry : allowedKeys.entrySet()) {
                 if (trans_content.contains(entry.getKey())) {
-                    tags.add(entry.getValue());
+                    tags.add(entry.getKey());
                 }
             }
-            this.keywords = new String[tags.size()];
-            this.keywords = tags.toArray(this.keywords);
+            this.keywords = tags;
         }
     }
 }

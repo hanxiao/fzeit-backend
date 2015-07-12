@@ -26,21 +26,19 @@ public class newsPoster {
 
     public static void main(String[] args){
 
-//        // write account info
-//        try
-//        {
-//            LOG.info("Saving account info...");
-//            FileOutputStream fileOut =
-//                    new FileOutputStream("account.bin");
-//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-//            out.writeObject(account);
-//            out.close();
-//            fileOut.close();
-//        } catch(Exception ex)
-//        {
-//            ex.printStackTrace();
-//            return;
-//        }
+        // write account info
+        try {
+            LOG.info("Saving account info...");
+            FileOutputStream fileOut =
+                    new FileOutputStream("account.bin");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(account);
+            out.close();
+            fileOut.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return;
+        }
 
 
 
@@ -111,7 +109,7 @@ public class newsPoster {
                 continue;
             }
             LOG.info(feedLists.get(jj));
-            wpPosts.addAll(new rssFeed(info[0].trim(), info[1].trim()).fetchSingleRSS());
+            wpPosts.addAll(new rssFeed(info[0].trim(), info[1].trim(), info[2].trim(), info[3].trim()).fetchSingleRSS());
         }
         wpPosts.publish(account);
         try {

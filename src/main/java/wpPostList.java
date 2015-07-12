@@ -39,23 +39,38 @@ public class wpPostList implements Serializable {
                     break;
                 }
             }
-            if (!isDuplicate && wp_new.trans_title.trim().length() > 0) {
+            if (!isDuplicate && wp_new.trans_title.trim().length() > 0
+                    && wp_new.keywords != null && wp_new.keywords.size() > 0) {
                 allPosts.add(wp_new);
             }
         }
         //allPosts.addAll(newPosts);
     }
 
+//    public void publish(wpAccount account) {
+//        sort();
+//        int success = 0;
+//        for (wpPost wp : allPosts) {
+//            if (!wp.has_posted && wp.trans_title.length() > 4 &&
+//                    wp.trans_content.length() > 10) {
+//                LOG.info("Posting: {}", wp.trans_title);
+//                success += (account.publishLocal(wp)) ? 1 : 0;
+//            }
+//        }
+//        LOG.info("Published: {} posts", success);
+//    }
+
     public void publish(wpAccount account) {
         sort();
-        int success = 0;
+        HtmlReplaceString htmlReplaceString = new HtmlReplaceString();
         for (wpPost wp : allPosts) {
             if (!wp.has_posted && wp.trans_title.length() > 4 &&
                     wp.trans_content.length() > 10) {
                 LOG.info("Posting: {}", wp.trans_title);
-                success += (account.publish(wp)) ? 1 : 0;
+                account.publishItem(wp, htmlReplaceString);
             }
         }
-        LOG.info("Published: {} posts", success);
+        account.publishHTML("/Users/hxiao/Documents/hanxiao.github.io/template.html",
+                "/Users/hxiao/Documents/hanxiao.github.io/index.html", htmlReplaceString);
     }
 }
